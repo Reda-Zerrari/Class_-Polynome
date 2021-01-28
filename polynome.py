@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jan 26 20:57:40 2021
@@ -73,10 +74,14 @@ class Polynome:
         p = self.getTete()
         while p :
             suivant = p.getSuivant()
-            if suivant != None and suivant.getDeg() <= m.getDeg():
-                return p
+            if p.getSuivant() == None :
+                return p          
+            if suivant.getDeg() <= m.getDeg():
+                if m.getDeg() == p.getSuivant().getDeg():
+                    return p.getSuivant()
+                return p  
             p = p.getSuivant()
-        return self
+
     
     def dernier(self):
         """
@@ -100,9 +105,42 @@ class Polynome:
             monome à inserer dans le polynome appelant.  
         """
         x= self.localiser(m)  
-        m.suivant , x.suivant = x.suivant , m
+        if self.est_vide():
+            self.setTete(m)   
+        elif x == self.getTete():
+            m.setSuivant(self.getTete())
+            self.setTete(m)
+        elif x.getDeg() == m.getDeg():
+            x.setCoef(x.getCoef()+ m.getCoef()) 
+        else:
+            m.setSuivant(x.suivant)
+            x.setSuivant(m)
+            
+    def __str__(self):
+        """
+        Returns
+        -------
+        s : str
+            la representation str du polynome
+        """
+        s = ''
+        p = self.getTete()
+        while p != None :
+            if p.getSuivant() == None :
+                s = s+str(p)
+            else : 
+                s = s+str(p) + ' + '
+            p = p.getSuivant()        
+        return s
+
+        
         
     
+        
+        
+        
+    
+        
         
         
         
